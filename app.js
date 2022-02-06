@@ -34,6 +34,10 @@ function getRows() {
         for(col of cols){
             // console.log(col)
 
+            // if(!col.innerHTML){
+            //     rows[y][x] = null;
+            //     continue;
+            // }
             // save the column's inner html as data in rows[row number][column number]
             rows[y][x] = Number(col.innerHTML)
 
@@ -47,7 +51,6 @@ function getRows() {
 
     return rows;
 }
-
 
 function getCols() {
     let cols = [
@@ -82,7 +85,6 @@ function getCols() {
 
     return cols;
 }
-
 
 function getSquares() {
     /*create variable squares to store squares as vector values
@@ -130,7 +132,52 @@ function getSquares() {
     return boxes;
 }
 
+function getPossibilities() {
+    let possibilites = [
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        []
+    ]
 
+    let tableRows = getRows();
+    let tableCols = getCols();
+    let tableSquares = getSquares();
+    console.log(tableRows)
+    let y = 0;
+    for(row of tableRows){
+        let x = 0;
+        for(col of row){
+            if(col){
+                possibilites[y][x] = col;
+            }
+            else {
+                // TODO: check for all the possible numbers that could occupy this cell
+                for(let i = 1; i<10; i++){
+                    let tempRows = tableRows;
+                    let tempCols = tableCols;
+                    tempRows[y][x] = i;
+                    tempCols[y][x] = i;
+                    if(!checkForRepeats(tempRows) && !checkForRepeats(tempCols)){
+                        if(possibilites[y][x]){
+                            possibilites[y][x].push(i);
+                        }
+                    }
+                }
+
+            }
+            x++;
+        }
+    y++;
+    }
+
+    return possibilites;
+}
 
 /* checks a grouping for a repeat value
     if one is found, returns true
@@ -171,10 +218,18 @@ $(document).ready(function() {
         let rows = getRows();
         let cols = getCols();
         let squares = getSquares();
-    
+        console.log(rows);
+        console.log(cols);
+        console.log(squares);
         console.log(checkForRepeats(rows));
         console.log(checkForRepeats(cols));
         console.log(checkForRepeats(squares));
         
+    })
+
+    $('#getPossibilities').click(function(e) {
+        e.preventDefault();
+
+        console.log(getPossibilities())
     })
 })
