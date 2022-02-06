@@ -147,7 +147,10 @@ function checkForRepeats(inp) {
                 if yes, returns true
                 if no, adds cell to tracker for next iteration through this dimension
             */
-            if(tracker.includes(cell)){
+            if(!cell){
+                continue;
+            }
+            else if(tracker.includes(cell)){
                 return true;
             } else if(cell !== undefined && cell !== null) {
                 tracker.push(cell);
@@ -161,11 +164,17 @@ function checkForRepeats(inp) {
 
 $(document).ready(function() {
 
-    let rows = getRows();
-    let cols = getCols();
-    let squares = getSquares();
+    $('#checkTable').click(function(e) {
+        e.preventDefault();
 
-    console.log(checkForRepeats(rows));
-    console.log(checkForRepeats(cols));
-    console.log(checkForRepeats(squares))
+
+        let rows = getRows();
+        let cols = getCols();
+        let squares = getSquares();
+    
+        console.log(checkForRepeats(rows));
+        console.log(checkForRepeats(cols));
+        console.log(checkForRepeats(squares));
+        
+    })
 })
